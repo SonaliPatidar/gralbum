@@ -1,0 +1,20 @@
+<div class="img-thumbnail" style="margin-left: 400px">
+    <div><%= image_tag @photo.image.url, size: "220x200" %></div></br>
+</div> 
+<div style="margin-left: 400px">
+    <div>Comments:</div></br>
+    <% @comments.each do |c|%>
+        <div><b><%= c.user.user_name %></b> : <%= c.comment_name %><%= " ("+time_ago_in_words(c.created_at)+" ago)" %></div>
+    <% end %>
+</div>   
+<%= form_for ([@current_user, @album, @photo, @comment]), :url => user_album_photo_comments_path(@current_user.id, @album.id, @photo.id), method: :post, html: {:class => "form-horizontal center"} do |f| %>
+  <div style="margin-left: 400px">
+    <div>
+      <%= f.text_area :comment_name, placeholder: "Comment here" %>
+    </div>
+    <p></p>
+    <div class="form-group">
+      <%= f.submit 'Submit' %>
+    </div>
+   </div>
+<% end %>

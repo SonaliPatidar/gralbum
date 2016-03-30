@@ -1,0 +1,9 @@
+<% if @current_user.present? %>
+  <%= link_to 'New album', new_user_album_path(@current_user.id)%> |
+  <%= link_to 'All albums', user_albums_path(@current_user.id)%> |
+  <%= link_to 'Edit Profile', edit_user_path(@current_user.id)%> |
+  <%= link_to 'Logout', logout_users_path%>
+<% else %> 
+    <%= link_to 'Sign up', new_user_path %>
+    <%= link_to 'Sign in', sign_in_users_path%>
+<% end %>  

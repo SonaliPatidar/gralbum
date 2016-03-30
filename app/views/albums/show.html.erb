@@ -1,0 +1,21 @@
+<div>
+  <div>
+	<strong><%= @album.name %></strong>
+	<strong style="margin-left: 500px"><%= "Description: "+@album.description %></strong>
+  </div>
+  <% unless @photos.blank? %>
+    <% @photos.each do |photo| %>
+      <div class="img-thumbnail">
+        <div><%= link_to (image_tag photo.image.url, size: "220x200"),  user_album_photo_path(@current_user.id, @album.id, photo.id) %></br>
+          <% if @album.user == @current_user%>
+            <%= link_to 'Make cover', make_cover_user_album_path(@current_user.id, @album.id, photo.id)%>|
+            <%= link_to 'Delete',  user_album_photo_path(@current_user.id, @album.id, photo.id), method: :delete, data: { confirm: 'Are you sure?' }%>
+          <% end %>
+        </div>  
+	  </div>  
+	<% end %>
+  <% else %>
+	<p>No photos are presents in this album.</p>
+  <% end %>
+</div>  
+
