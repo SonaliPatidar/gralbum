@@ -44,23 +44,23 @@
         </button>
         <a class="navbar-brand" href="#">Gralbum</a>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
-          <% if @current_user.present? %>
-            <div class=" navbar-brand " style="margin-left: 100px"> Welcome <%= @current_user.first_name %> </div>
+          <% if current_user.present? %>
+            <div class=" navbar-brand " style="margin-left: 100px"> Welcome <%= current_user.first_name %> </div>
             <ul class="navbar-right ">
-              <div class=" navbar-brand"><%= link_to 'New album', new_user_album_path(@current_user.id) %> | </div>
-              <div class=" navbar-brand"><%= link_to 'All albums', user_albums_path(@current_user.id)%> | </div>
-              <div class=" navbar-brand"><%= link_to 'My album', my_album_user_albums_path(@current_user) %> | </div>
+              <div class=" navbar-brand"><%= link_to 'New album', new_user_album_path(current_user.id) %> | </div>
+              <div class=" navbar-brand"><%= link_to 'All albums', user_albums_path(current_user.id)%> | </div>
+              <div class=" navbar-brand"><%= link_to 'My album', my_album_user_albums_path(current_user) %> | </div>
               <div class=" navbar-brand dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                 <li class="navbar-brand"><%= link_to 'Edit Profile', edit_user_path(@current_user.id) %></li>
-                 <li class="navbar-brand"><%= link_to 'View Profile', user_path(@current_user.id) %></li>
-                 <li class="navbar-brand"><%= link_to 'Logout', logout_users_path%></li>
+                 <li class="navbar-brand"><%= link_to 'Edit Profile', edit_user_registration_path %></li>
+                 <li class="navbar-brand"><%= link_to 'View Profile', user_path(current_user.id) %></li>
+                 <li class="navbar-brand"><%= link_to 'Logout', destroy_user_session_path, :method => 'delete'%></li>
                 </ul> 
               </div>
            <% else %> 
-             <%= link_to 'Sign up', new_user_path %>
-             <%= link_to 'Sign in', sign_in_users_path %>
+             <%= link_to 'Sign up', new_user_registration_path %>
+             <%= link_to 'Sign in', new_user_session_path %>
            <% end %>
           </ul>
         </div>

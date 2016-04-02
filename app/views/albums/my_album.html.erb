@@ -2,16 +2,19 @@
     <% @albums.each do |album| %>
       <div class="img-thumbnail">
         <div>
-          <%=link_to image_tag(album_cover_photo(album), size: "170x120"),user_album_path(@current_user, album.id)%></br>
+          <%=link_to image_tag(album_cover_photo(album), size: "170x120"),user_album_path(current_user, album.id)%></br>
         </div>
           <div>
             <%= album.name %> |
             <%= album.description %>
           </div>
-          <div>
-            <div class="col-lg-1"><%= link_to 'Edit', edit_user_album_path(@current_user, album.id) %></div>
-             <div class="col-lg-1"><%= link_to 'Destroy', user_album_path(@current_user, album.id), method: :delete, data: { confirm: 'Are you sure?' } %> </div>
+          <div style="border-top: #e5e5e5 1px solid">
+            <div class="col-lg-1"><%= link_to 'Edit', edit_user_album_path(current_user, album.id) %></div>
+             <div class="col-lg-1"><%= link_to 'Destroy', user_album_path(current_user, album.id), method: :delete, data: { confirm: 'Are you sure?' } %></div></br>
+              <div style="border-top: #e5e5e5 1px solid"><%= link_to 'Share it', share_album_user_album_path(current_user.id, album.id) %></div>
           </div>
+          
+          
       </div>
     <% end %>
 </table>

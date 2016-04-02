@@ -11,9 +11,13 @@ class PhotosController < ApplicationController
  def destroy
   	@photo = Photo.find(params[:id])
   	@album = @photo.album
-  	@user = @album.user
+  	if @photo.comments
+	  @photo.comments.each do |comment|
+	    CommentMailer.mail_photo_delete(@photo, comment.user).deliver_now
+	  end
+	end    
   	if @photo.destroy
-  	  redirect_to user_album_path(@user.id, @album.id), notice: 'Photo was successfully deleted.'
+  	  render :partial => "albums/delete_photo", :locals => {album: @album}	
     else
       flash[:error] = "Not deleted"
     end  

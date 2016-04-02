@@ -1,0 +1,5 @@
+<div>Comments:</div>
+<% comments.each do |c|%>
+  <div><b><%= c.user.user_name %></b> : <%= c.comment_name %><%= " ("+time_ago_in_words(c.created_at)+" ago)" %></div>
+<% end %>
+</div>

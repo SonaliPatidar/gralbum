@@ -1,24 +1,27 @@
 Rails.application.routes.draw do
+  devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-    root 'welcome#index'
+    root 'albums#index'
 
     resources :users do
-      collection do
-        get 'sign_in'
-        post 'authentication'
-        get 'logout'
-        get 'forgot_password'
-        post 'send_password'
-      end
+      # collection do
+      #   get 'sign_in'
+      #   post 'authentication'
+      #   get 'logout'
+      #   get 'forgot_password'
+      #   post 'send_password'
+      # end
       resources :albums do
         collection do
           get 'my_album'
         end 
         member do 
           get 'make_cover'
+          get 'share_album'
+          get 'sent_album'
         end
         resources :photos do
           resources :comments

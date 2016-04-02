@@ -1,4 +1,5 @@
 <div class='nested-fields'>
+    <%= image_tag f.object.image.url(:thumb) if f.object.image? %>
 	<%= f.file_field :image %>
 	<%= link_to_remove_association 'Remove', f %>
 </div>

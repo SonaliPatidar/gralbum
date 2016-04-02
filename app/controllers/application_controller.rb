@@ -3,20 +3,11 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   
   protect_from_forgery with: :exception
+  before_action :configure_permitted_parameters, if: :devise_controller?
   
-  def current_user
-  	if session[:current_user].present?
-	    @current_user = User.find(session[:current_user]['id'])
-	  else
-		  nil
-	  end
-  end	
+  protected
 
-  def authenticate_user!
-    if current_user.blank?
-      flash[:error] = "Please login to continue "
-      redirect_to sign_in_users_path
-    end
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:user_name, :first_name, :last_name, :role, :email, :password, :password_confirmation) }
   end
-
 end

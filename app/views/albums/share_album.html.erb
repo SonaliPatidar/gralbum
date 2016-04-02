@@ -1,0 +1,9 @@
+<p>Enter email address to send album</p>
+<%= form_tag sent_album_user_album_path(current_user, @album), method: :get do %>
+  <div class="form-group">
+    <%= email_field_tag 'email'%>
+  </div>
+  <div class="form-group">
+    <%= submit_tag 'Share' %>
+  </div>
+<% end %>

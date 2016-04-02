@@ -16,6 +16,7 @@ gem "paperclip", "~> 4.3"
 gem "twitter-bootstrap-rails"
 gem "cocoon"
 gem 'will_paginate', '~> 3.0'
+gem 'devise'
 
 
 group :development, :test do

@@ -1,0 +1,8 @@
+<h1>Hello, <%= @receiver.user_name%></h1>
+<p>Photos from <%= @album.user.user_name%></p>
+<p>Name of album is <%= @album.name%></p>
+<p>Description is <%= @album.description%></p>
+<p>Photos</p>
+<% @album.photos.each do |photo|%>
+  <div><%= image_tag photo.image.url, size: "220x200" %></div>
+<% end %>  

@@ -1,0 +1,30 @@
+<% @photos = album.photos %>
+<% unless @photos.blank? %>
+  <% @photos.each do |photo| %>
+      <div class="img-thumbnail">
+        <div><%= link_to (image_tag photo.image.url, size: "220x200"),  user_album_photo_path(current_user.id, @album.id, photo.id) %></br>
+        <% if @album.user == current_user%>
+          <%= link_to 'Make cover', make_cover_user_album_path(current_user.id, @album.id, photo_id: photo.id)%>|
+          <%= link_to 'Delete', '#', data: {id: photo.id }, :class => "destroy_photo" %>
+        <% end %>
+        </div>  
+      </div>  
+    <% end %>
+  <% else %>
+  <p>No photos are presents in this album.</p>
+<% end %>
+
+<script type="text/javascript">
+  $('.destroy_photo').click(function() {
+    var id = $(this).data('id');
+    $.ajax({
+        type: "DELETE",
+        url: "/users/<%= current_user.id %>/albums/<%= @album.id %>/photos/"+id
+    }).complete(function(json){
+      $('#delete_photo').html(json.responseText);
+      
+    });  
+  });
+</script>
+
+
