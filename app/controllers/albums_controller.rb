@@ -44,6 +44,11 @@ class AlbumsController < ApplicationController
   def update
     @album = current_user.albums.find(params[:id])
   	if @album.update(album_params)
+      @album.photos.each do |photo|
+        if photo.changed? && photo.comments.present?
+          photo.comments.destroy_all
+        end
+      end   
       redirect_to my_album_user_albums_path(current_user), notice: 'album was successfully updated.'
     else
       flash[:error] = @album.errors.full_messages.join('.').html_safe

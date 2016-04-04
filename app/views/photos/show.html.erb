@@ -15,13 +15,18 @@
 <script type="text/javascript">
   $('.post_comment').click(function() {  
     cname = $('#comment_name').val()
-    $.ajax({
-        type: "POST",
-        url: "/users/<%= @photo.album.user.id %>/albums/<%= @photo.album.id %>/photos/<%= @photo.id %>/comments", 
-        data: {comment: {comment_name: cname}}
-    }).complete(function(json){
-      $('#photo_comments').html(json.responseText);
-      $('#comment_name').val('');
-    });
+    if(cname.length > 0){
+      $.ajax({
+          type: "POST",
+          url: "/users/<%= @photo.album.user.id %>/albums/<%= @photo.album.id %>/photos/<%= @photo.id %>/comments", 
+          data: {comment: {comment_name: cname}}
+      }).complete(function(json){
+        $('#photo_comments').html(json.responseText);
+        $('#comment_name').val('');
+      });
+    }else{
+      alert('Comment can not be blank.')
+      return false;
+    }
   });
 </script>

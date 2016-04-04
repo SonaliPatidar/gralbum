@@ -12,8 +12,9 @@ class PhotosController < ApplicationController
   	@photo = Photo.find(params[:id])
   	@album = @photo.album
   	if @photo.comments
-	  @photo.comments.each do |comment|
-	    CommentMailer.mail_photo_delete(@photo, comment.user).deliver_now
+	  @photo.comments.pluck(:user_id).uniq.each do |user_id|
+	   @user = User.find(user_id)
+	   CommentMailer.mail_photo_delete(@photo, @user).deliver_now
 	  end
 	end    
   	if @photo.destroy
