@@ -12,11 +12,7 @@
   <% @pending_request.each do |pending_request|%>
     <div>
       <tr>
-        <% if pending_request.user_name.blank? %>
-          <td><%= pending_request.email %></td>
-        <% else%>
         <td><%= pending_request.user_name %></td>
-        <% end %>
       </tr>
     </div>
    <% end %>

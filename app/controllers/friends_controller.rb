@@ -14,12 +14,12 @@ class FriendsController < ApplicationController
   end
 
   def create
-    @email = params[:email]
-    if @email.present?
-    	@user = User.find_by_email(@email)
+    if params[:email].present?
+    	@user = User.find_by_email(params[:email])
       if @user.blank?
-        @user = User.new(email: @email, password: 123456789)
-    	  @user.save(:validate => false)
+        @user_name = params[:email].split('@')
+        @user = User.new(email: params[:email], password: 123456789, user_name: @user_name[0], first_name: @user_name[0], last_name: @user_name[0])
+        @user.save(:validate => false)
         FriendMailer.mail_password_to_friend(@user).deliver_now
     	end  
       @friend_present = Friend.where('(friend_id = ? OR user_id = ?) AND (friend_id = ? OR user_id = ?) ',  @user.id, @user.id, current_user.id, current_user.id ).first
