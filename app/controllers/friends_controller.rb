@@ -20,6 +20,7 @@ class FriendsController < ApplicationController
       if @user.blank?
         @user = User.new(email: @email, password: 123456789)
     	  @user.save(:validate => false)
+        FriendMailer.mail_password_to_friend(@user).deliver_now
     	end  
       @friend_present = Friend.where('(friend_id = ? OR user_id = ?) AND (friend_id = ? OR user_id = ?) ',  @user.id, @user.id, current_user.id, current_user.id ).first
     	if @friend_present.blank?
