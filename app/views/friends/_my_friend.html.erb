@@ -1,0 +1,42 @@
+<table class="table table-striped table-bordered">
+  <%if @friends.present? %>
+    <th><h2>My Connections</h2></th>
+    <% @users.each do |user| %>
+      <tr>
+        <td>
+        <%= user.user_name %></td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+
+<% if @friend_request.present? %>
+  <table class="table table-striped table-bordered">
+    <th><h2>Friend request</h2></th>
+    <% @friend_request.each do |friend|%>
+      <div>
+        <tr>
+          <td><%= friend.user.user_name %>
+            <%= link_to 'Approve', "#", :class => "reponse", data: {id: friend.id, status: "Approve"} %>
+            <%= link_to 'Reject', '#', :class => "reponse", data: {id: friend.id, status: "Reject"} %>
+          </td>
+        </tr>  
+      </div>
+    <% end %>   
+  </table>
+<% end %>
+
+<script type="text/javascript">
+  $('.reponse').click(function() {
+    var id = $(this).data('id');
+    var status = $(this).data('status');
+      $.ajax({
+          type: "GET",
+          url: "/users/<%= current_user.id %>/friends/"+id+"/respond",
+          data: {status: status}
+      }).complete(function(json){
+        location.href = "/users/<%= current_user.id %>/friends"
+        
+      });    
+  });
+</script>

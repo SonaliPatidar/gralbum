@@ -1,16 +1,15 @@
 <table class="table table-striped table-bordered">
   <tbody>
-    <% @albums.each do |album| %>
+      <% @albums.each do |album|%>
         <div class="img-thumbnail">
           <div>
-            <%=link_to image_tag(album_cover_photo(album), size: "170x120"),user_album_path(current_user, album.id)%></br>
+            <%=link_to image_tag(album_cover_photo(album), size: "170x120"),user_album_path(current_user.id, album.id)%>
           </div>
           <div>
-            <%= album.name %> |
-            <%= album.description %>
+            <%= album.name+' by '+album.user.user_name %> 
           </div>
-        </div>  
-      <% end %>
+        </div> 
+      <% end %>   
   </tbody>
 </table>
 <%= will_paginate @albums %>

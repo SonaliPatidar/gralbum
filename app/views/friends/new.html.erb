@@ -1,0 +1,9 @@
+<p>Invite friend</p>
+<%= form_for ([current_user, @friend]) do |f|%>
+  <div class="form-group">
+    <%= email_field_tag 'email'%>
+  </div>
+  <div class="form-group">
+    <%= f.submit 'Send Request' %>
+  </div>
+<% end %>

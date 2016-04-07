@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :albums, dependent: :destroy
   has_many :photos
   has_many :comments
+  has_many :friends, dependent: :destroy
   accepts_nested_attributes_for :photos, allow_destroy: true
   before_create :set_role
   validates :first_name, :last_name, :user_name, :presence => true,

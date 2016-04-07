@@ -2,23 +2,23 @@
    <tbody>
       <tr>
         <td><b>User Name:</b></td>	
-        <td><%= @user.user_name%></td>
+        <td><%= current_user.user_name%></td>
       </tr>  
       <tr>
         <td><b>First Name:</b></td>
-        <td><%= @user.first_name%></td>
+        <td><%= current_user.first_name%></td>
       </tr>  
       <tr>
         <td><b>Last Name:</b></td>
-        <td><%= @user.last_name%></td>
+        <td><%= current_user.last_name%></td>
       </tr>  
       <tr>
         <td><b>Email:</b></td>
-        <td><%=@user.email %></td>
+        <td><%=current_user.email %></td>
       </tr>
       <tr>
         <td><b>Role:</b></td>
-        <td><%= @user.role%></td>
+        <td><%= current_user.role%></td>
       </tr>
     </tbody>
 </table>      

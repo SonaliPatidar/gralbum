@@ -1,0 +1,25 @@
+<div class="navbar-right navbar-brand">
+  <%= link_to 'Invite Friends', new_user_friend_path(current_user.id)%>
+</div>
+<div class="col-lg-3" id="my_friend">
+	<%= render :partial => 'my_friend'%>
+	
+</div>
+<% if @pending_request.present? %>
+<div class="col-lg-3">
+  <table class="table table-striped table-bordered">
+  <th><h2>Pending Request</h2></th>
+  <% @pending_request.each do |pending_request|%>
+    <div>
+      <tr>
+        <% if pending_request.user_name.blank? %>
+          <td><%= pending_request.email %></td>
+        <% else%>
+        <td><%= pending_request.user_name %></td>
+        <% end %>
+      </tr>
+    </div>
+   <% end %>
+  </table>
+</div>
+<% end %>

@@ -7,27 +7,25 @@ Rails.application.routes.draw do
     root 'albums#index'
 
     resources :users do
-      # collection do
-      #   get 'sign_in'
-      #   post 'authentication'
-      #   get 'logout'
-      #   get 'forgot_password'
-      #   post 'send_password'
-      # end
       resources :albums do
         collection do
           get 'my_album'
-        end 
-        member do 
+        end
+        member do
           get 'make_cover'
           get 'share_album'
           get 'sent_album'
         end
         resources :photos do
           resources :comments
-        end  
-      end  
-    end  
+        end
+      end
+      resources :friends do
+        member do
+          get 'respond'
+        end
+      end
+    end
 
       
 

@@ -2,7 +2,10 @@ class AlbumsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @albums = Album.where.not(user_id: current_user, publish: false).paginate(page: params[:page], per_page: 2)
+    @friends = Friend.where('(friend_id = ? OR user_id = ?) AND status = "Approve"',current_user.id, current_user.id)
+    @user_id = @friends.pluck(:user_id, :friend_id).flatten
+    @users = User.where(id: @user_id).where.not(id: current_user.id).pluck(:id).uniq
+    @albums = Album.where(user_id: @users, publish: true).paginate(page: params[:page], per_page: 30)
   end
 
   def new
@@ -11,34 +14,26 @@ class AlbumsController < ApplicationController
   end
  
   def show
-    @album = Album.find_by_id(params[:id])
+    @album = Album.find(params[:id])
     @photos = @album.photos
   end
 
   def edit
-    if @album = current_user.albums.find_by_id(params[:id])
-       @user = current_user
-    else
+    @album = current_user.albums.find(params[:id])
+    if @album.blank?
       flash[:error]="Unauthorise user"
       redirect_to my_album_user_albums_path(current_user)
     end  
-
   end	
 
   def create
     @album = current_user.albums.new(album_params)
-    if @album.photos.present?
-      @album.photos.each do |photo| photo.user_id = current_user.id end
       if @album.save
        redirect_to my_album_user_albums_path(current_user),notice: 'Album was successfully created.'
       else
        flash[:error] = @album.errors.full_messages.join('.').html_safe
-       redirect_to new_user_album_path
-      end
-    else
-      flash[:error] = "Please select photo"
-      redirect_to new_user_album_path
-    end  	
+       render 'new' 
+      end  	
   end
 
   def update
@@ -57,7 +52,7 @@ class AlbumsController < ApplicationController
   end	
 
   def destroy
-    @album = Album.find(params[:id])
+    @album = current_user.albums.find(params[:id])
     if @album.destroy
       redirect_to my_album_user_albums_path(current_user), notice: 'album was successfully deleted.'
     else
@@ -66,11 +61,11 @@ class AlbumsController < ApplicationController
   end
 
   def my_album
-    @albums = current_user.albums.paginate(page: params[:page], per_page: 2)
+    @albums = current_user.albums.paginate(page: params[:page], per_page: 30)
   end  
 
   def make_cover
-    @album = Album.find(params[:id])
+    @album = current_user.albums.find(params[:id])
     @album.photos.update_all(cover_photo: false)
     @photo = @album.photos.find(params[:photo_id])
     if @photo.update(cover_photo: true)
@@ -79,15 +74,15 @@ class AlbumsController < ApplicationController
   end 
 
   def  share_album
-    @album = Album.find(params[:id])
+    @album = current_user.albums.find(params[:id])
   end
 
   def  sent_album
-    @user = User.where(email: params[:email]).first
-    @album = Album.find(params[:id])
-    if @user 
-    AlbumMailer.mail_my_album(@user, @album).deliver_now 
-    redirect_to my_album_user_albums_path(current_user), notice: 'Mail send successfully'
+    @user = User.find_by_email(params[:email])
+    @album = current_user.albums.find(params[:id])
+    if @user.present? 
+      AlbumMailer.mail_my_album(@user, @album).deliver_now 
+      redirect_to my_album_user_albums_path(current_user), notice: 'Album send successfully'
     else
       flash[:error] ="Invalid email"
       redirect_to share_album_user_album_path(current_user.id, @album.id)
@@ -97,6 +92,6 @@ class AlbumsController < ApplicationController
   private		
 
   def album_params
-      params.require(:album).permit(:name, :description, :publish, :photos_attributes => [:id, :album_id, :image, :_destroy])
+      params.require(:album).permit(:name, :description, :publish, :photos_attributes => [:id, :album_id, :image, :user_id])
   end
 end
