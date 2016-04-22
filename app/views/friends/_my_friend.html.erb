@@ -3,7 +3,7 @@
     <th><h2>My Connections</h2></th>
     <% @users.each do |user| %>
       <tr>
-        <td>
+        <td class="active">
         <%= user.user_name %></td>
       </tr>
     <% end %>
@@ -12,11 +12,11 @@
 
 <% if @friend_request.present? %>
   <table class="table table-striped table-bordered">
-    <th><h2>Friend request</h2></th>
+    <th><h2>Friend Request</h2></th>
     <% @friend_request.each do |friend|%>
       <div>
         <tr>
-          <td><%= friend.user.user_name %>
+          <td class="active"><%= friend.user.user_name %>
             <%= link_to 'Approve', "#", :class => "reponse", data: {id: friend.id, status: "Approve"} %>
             <%= link_to 'Reject', '#', :class => "reponse", data: {id: friend.id, status: "Reject"} %>
           </td>
