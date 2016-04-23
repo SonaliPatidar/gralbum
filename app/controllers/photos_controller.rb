@@ -9,7 +9,7 @@ class PhotosController < ApplicationController
   end	
 
  def destroy
-  	@photo = Photo.find(params[:id])
+  	@photo = current_user.photos.find(params[:id])
   	@album = @photo.album
     if @photo.comments
       @photo.comments.pluck(:user_id).uniq.each do |user_id|
@@ -19,6 +19,6 @@ class PhotosController < ApplicationController
     end  
   	if @photo.destroy
       render :partial => "albums/delete_photo", :locals => {album: @album}	
-    end  
+    end
   end
 end
